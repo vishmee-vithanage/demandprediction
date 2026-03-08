@@ -44,53 +44,8 @@ gas-demand-predictor/
 │   └── processed/    # Cleaned + synthetic datasets
 └── .env.example      # Environment variable template
 ```
-
-## Setup Instructions
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/YOUR_USERNAME/gas-demand-predictor.git
-cd gas-demand-predictor
-```
-
-### 2. Set up Python environment
-```bash
-python -m venv venv
-venv\Scripts\activate        # Windows
-source venv/bin/activate     # Mac/Linux
-pip install -r requirements.txt
-```
-
-### 3. Configure environment variables
-```bash
-cp .env.example .env
-# Edit .env with your MongoDB URL and Gmail credentials
-```
-
-### 4. Prepare data and train models
-```bash
-python ml/scripts/household_data_merger.py
-python ml/scripts/synthetic_station_data_generator.py
-python ml/scripts/train_household_model.py
-python ml/scripts/train_station_model.py
-```
-
-### 5. Start the backend
-```bash
-python -m uvicorn backend.main:app --reload --port 8000
-```
-
-### 6. Start the frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### 7. Open in browser
 - Frontend: http://localhost:5173
 - API Docs: http://localhost:8000/docs
-
 ## ML Models
 
 | Model | Algorithm | Purpose | MAE |
