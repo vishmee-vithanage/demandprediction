@@ -1,6 +1,4 @@
 # backend/main.py
-# FastAPI application entry point
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -10,11 +8,16 @@ load_dotenv()
 
 from backend.database import connect_db, close_db
 from backend.routes   import router
+from backend.scheduler import start_scheduler, scheduler
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Startup
     await connect_db()
+    start_scheduler()
     yield
+    # Shutdown
+    scheduler.shutdown()
     await close_db()
 
 app = FastAPI(
@@ -27,7 +30,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
