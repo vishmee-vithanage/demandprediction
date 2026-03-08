@@ -16,9 +16,12 @@ export default function Login() {
       const res = await API.post('/auth/login', form)
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('user',  JSON.stringify(res.data.user))
+
+      // Tell navbar to re-read localStorage
+      window.dispatchEvent(new Event('storage'))
+
       toast.success(`Welcome, ${res.data.user.name}!`)
 
-      // Redirect based on role
       if (res.data.user.role === 'admin') {
         navigate('/station')
       } else {
